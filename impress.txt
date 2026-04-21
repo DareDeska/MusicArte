@@ -1,0 +1,7 @@
+Categoria,Parametro,Descrizione
+Spazio,     "data-x, y, z",             Coordinate assolute.
+Relativi,   "data-rel-x, y, z",         Coordinate rispetto allo step precedente.
+Rotazione,  data-rotate(-x/y/z),        Orientamento nello spazio.
+Scala,      data-scale,                 Zoom e dimensione.
+Tempo,      data-transition-duration,   Velocità di spostamento.
+Auto,       data-autoplay,              Tempo di permanenza prima del salto automatico.

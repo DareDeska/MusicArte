@@ -1,0 +1,104 @@
+(function () {
+  const root = document.getElementById("impress");
+  if (!root || typeof impress !== "function") {
+    return;
+  }
+
+  // Leggi la cartella immagini dal data attribute del root
+  const IMAGES_FOLDER = root.dataset.imagesFolder || 'immagini_1/';
+  
+  // Popola automaticamente gli src dalle data-image
+  document.querySelectorAll('img[data-image]').forEach(function (img) {
+    img.src = IMAGES_FOLDER + img.dataset.image;
+  });
+
+  const api = impress();
+  api.init();
+
+  // Navigazione mobile: tap sullo schermo => step successivo
+  const tapToNextEnabled = root.dataset.tapToNext !== "false";
+  let lastTouchAdvanceAt = 0;
+
+  function isInteractiveTarget(target) {
+    return !!target?.closest("a, button, input, textarea, select, label, [data-no-tap-next]");
+  }
+
+  function advanceFromTap(event) {
+    if (!tapToNextEnabled || isInteractiveTarget(event.target)) {
+      return;
+    }
+
+    lastTouchAdvanceAt = Date.now();
+    api.next();
+  }
+
+  if (globalThis.PointerEvent) {
+    document.addEventListener("pointerup", function (event) {
+      if (event.pointerType === "touch" || event.pointerType === "pen") {
+        advanceFromTap(event);
+      }
+    }, { passive: true });
+  } else {
+    document.addEventListener("touchend", advanceFromTap, { passive: true });
+    document.addEventListener("click", function (event) {
+      if (Date.now() - lastTouchAdvanceAt < 500) {
+        return;
+      }
+      advanceFromTap(event);
+    }, { passive: true });
+  }
+
+  root.addEventListener("impress:stepleave", function (event) {
+    event.target.classList.add("leaving");
+
+    // Rimuovi leaving dopo la finestra di overlap visivo
+    const leavingStep = event.target;
+    setTimeout(function () {
+      leavingStep.classList.remove("leaving");
+    }, 200);
+  });
+
+  root.addEventListener("impress:stepenter", function (event) {
+    const enteringStep = event.target;
+    const leavingSteps = root.querySelectorAll(".step.leaving");
+    leavingSteps.forEach(function (step) {
+      if (step !== enteringStep) {
+        step.classList.remove("leaving");
+      }
+    });
+
+    // Auto-next dichiarativo: lo step decide via attributi data-*
+    if (enteringStep.dataset.autoNextOnAnimationEnd === "true") {
+      const targetSelector = enteringStep.dataset.autoNextTarget || "img";
+      const animationTarget = enteringStep.querySelector(targetSelector);
+      const delay = Number(enteringStep.dataset.autoNextDelay || 0);
+
+      if (animationTarget) {
+        animationTarget.addEventListener("animationend", function () {
+          // Mantiene il transform durante il fade-out
+          enteringStep.classList.add("animation-finished");
+
+          setTimeout(function () {
+            enteringStep.classList.remove("animation-finished");
+          }, 1000);
+
+          if (delay > 0) {
+            setTimeout(function () {
+              api.next();
+            }, delay);
+          } else {
+            api.next();
+          }
+        }, { once: true });
+      }
+    }
+
+    // Pulisci la classe animation-finished dai precedenti step
+    const finishedSteps = root.querySelectorAll(".step.animation-finished");
+    finishedSteps.forEach(function (step) {
+      if (step !== enteringStep) {
+        step.classList.remove("animation-finished");
+      }
+    });
+  });
+})();

@@ -1,0 +1,147 @@
+<!封装 id="main" class="presentation-menu">
+<!DOCTYPE html>
+
+
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pittura Barocca – Presentazione Musicale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --pergamena: #F5F5DC;
+      --gold: #c5a059;
+      --dark-bg: #0f0f0f;
+      --text-color: #e0e0e0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+      color: var(--text-color);
+      font-family: 'Playfair Display', serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      letter-spacing: 3px;
+      color: var(--pergamena);
+      text-transform: lowercase;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background-color: var(--gold);
+      margin: 0 auto;
+    }
+
+    #main {
+      width: 90%;
+      max-width: 800px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    #main p {
+      margin: 0;
+      padding: 0;
+    }
+
+    #main a {
+      display: block;
+      padding: 0.5rem 2rem;
+      color: var(--text-color);
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(197, 160, 89, 0.2);
+      border-radius: 4px;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #main a:hover {
+      background: rgba(197, 160, 89, 0.1);
+      border-color: var(--gold);
+      transform: translateX(10px);
+      color: #fff;
+    }
+
+    #main a::before {
+      content: '•';
+      color: var(--gold);
+      margin-right: 15px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    #main a:hover::before {
+      opacity: 1;
+    }
+
+    /* Effetto per il testo dell'autore */
+    #main a b {
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      #main a { padding: 1rem; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Luci e Ombre nel primo Seicento</h1>
+  <h2>consonanze tra musica, pittura e scultura</h2>
+  <div class="divider"></div>
+</header>
+
+<div id="main">
+  <p><a href="index_1.html"><b>B. Marini:</b> Sonata quarta</a></p>
+  <p><a href="index_2.html"><b>D. Castello:</b> Sonata seconda</a></p>
+  <p><a href="index_3.html"><b>R. Rognoni:</b> Diminuzioni Ancor Che Col Partire</a></p>
+  <p><a href="index_4.html"><b>S. Ganassi:</b> Io vorrei, Dio d'Amore</a></p>
+  <p><a href="index_5.html"><b>G. Fontana:</b> Sonata seconda</a></p>
+  <p><a href="index_6.html"><b>B. Montalbano:</b> Sinfonia terza “Sghemma”</a></p>
+  <p><a href="index_7.html"><b>D. Castello:</b> Sonata seconda a sopran solo</a></p>
+  <p><a href="index_8.html"><b>A. Bertali:</b> Sonata seconda per violino, viola da gamba e basso</a></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+.back-home {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px;   /* Area cliccabile */
+    height: 60px;
+    z-index: 9999; /* Sempre sopra tutto */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+    opacity: 0.1;  /* Quasi invisibile */
+    color: var(--gold, #c5a059); /* Usa la variabile se l'hai definita, altrimenti un colore simile */
+    font-size: 1.2rem;
+}
+
+/* Diventa visibile solo quando ci passi sopra col mouse */
+.back-home:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.2); /* Un leggero velo per capire che è cliccabile */
+}
+
+
+.author {
+    font-size: 150px;       /* Regola la grandezza (molto grande per impress.js) */
+    color: #A0522D;        /* rosso caravaggio #83272D; */
+    font-weight: bold;     /* Testo in grassetto */
+    text-transform: uppercase; /* Tutto in maiuscolo */
+    margin-top: 150px;   /* Spazio sotto il nome dell'autore */
+    margin-bottom: 150px;   /* Spazio sotto il nome dell'autore */
+    display: block;        /* Assicura che vada a capo */
+}
+
+.author .dates {
+    font-size: 0.5em;       /* Usa 'em' per renderlo proporzionalmente più piccolo (60%) */
+    font-style: italic;     /* Corsivo */
+    font-weight: normal;    /* Toglie il grassetto dell'autore */
+    text-transform: none;
+    color: color-mix(in srgb, currentColor, white 30%);
+    display: block;         /* Per mandarlo a capo */
+}
+
+/* Stile per l'opera (es. Io vorrei, Dio d'Amore) */
+.opera {
+    font-size: 100px;       /* Un po' più piccolo dell'autore */
+    color: #DEB887;
+    font-style: italic;    /* Corsivo, tipico per i titoli delle opere */
+    font-family: serif;    /* Un font più elegante e classico */
+    line-height: 1.2;      /* Spaziatura tra le righe */
+    display: block;
+}
+
+#impress {
+  touch-action: manipulation;
+}
+
+.step {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+}
+
+.step img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Nascondi tutti gli step inattivi, mostra solo quello attivo */
+.impress-enabled .step {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none;
+}
+
+.impress-enabled .step.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.impress-enabled .step.fx-fade {
+  --fade-duration: 1800ms;
+  --fade-ease: ease-in-out;
+  --fade-start-brightness: 0;
+  --fade-start-contrast: 1.35;
+  --fade-blur: 8px;
+  --fade-start-scale: 1.03;
+  transition: opacity var(--fade-duration) var(--fade-ease);
+}
+
+.impress-enabled .step.fx-fade img {
+  transition: filter var(--fade-duration) var(--fade-ease),
+              transform var(--fade-duration) var(--fade-ease);
+  filter: brightness(var(--fade-start-brightness))
+          contrast(var(--fade-start-contrast))
+          blur(var(--fade-blur));
+  transform: scale(var(--fade-start-scale));
+}
+
+.impress-enabled .step.fx-fade.active img {
+  filter: brightness(1) contrast(1) blur(0);
+  transform: scale(1);
+}
+
+/* Evita flash durante il cambio step: mantiene visibile lo step in uscita */
+.impress-enabled .step.leaving {
+  opacity: 1;
+}
+
+/* Zoom configurabile per singolo step via variabili CSS inline */
+.zoom-step img {
+  will-change: transform;
+}
+
+.zoom-step,
+.reverse-zoom-step {
+  --zoom-detail-transform: translate(var(--zoom-tx, -18%), var(--zoom-ty, 12%)) scale(var(--zoom-scale, 2.8));
+}
+
+.impress-enabled .zoom-step.active img {
+  animation: zoom-to-detail var(--zoom-duration, 1800ms) var(--zoom-ease, ease-in-out) forwards;
+}
+
+.reverse-zoom-step img {
+  will-change: transform;
+}
+
+.impress-enabled .reverse-zoom-step.active img {
+  animation: zoom-from-detail var(--zoom-duration, 1800ms) var(--zoom-ease, ease-in-out) forwards;
+}
+
+@keyframes zoom-to-detail {
+  to {
+    transform: var(--zoom-detail-transform);
+  }
+}
+
+@keyframes zoom-from-detail {
+  from {
+    transform: var(--zoom-detail-transform);
+  }
+  to {
+    transform: translate(0%, 0%) scale(1);
+  }
+}
+
+/* Mantiene il transform di zoom anche dopo che l'animazione finisce */
+.zoom-step.animation-finished img {
+  transform: var(--zoom-detail-transform);
+}
+
+.reverse-zoom-step.animation-finished img {
+  transform: translate(0%, 0%) scale(1);
+}
+
+
