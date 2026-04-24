@@ -38,6 +38,8 @@ html, body {
     text-transform: uppercase; /* Tutto in maiuscolo */
     margin-top: 150px;   /* Spazio sotto il nome dell'autore */
     margin-bottom: 150px;   /* Spazio sotto il nome dell'autore */
+    margin-left: 80px;
+    margin-right: 80px;
     display: block;        /* Assicura che vada a capo */
 }
 
@@ -57,6 +59,8 @@ html, body {
     font-style: italic;    /* Corsivo, tipico per i titoli delle opere */
     font-family: serif;    /* Un font più elegante e classico */
     line-height: 1.2;      /* Spaziatura tra le righe */
+    margin-left: 80px;
+    margin-right: 80px;
     display: block;
 }
 
@@ -164,5 +168,4 @@ html, body {
 .reverse-zoom-step.animation-finished img {
   transform: translate(0%, 0%) scale(1);
 }
-
 
