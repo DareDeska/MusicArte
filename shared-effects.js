@@ -74,7 +74,16 @@
       const delay = Number(enteringStep.dataset.autoNextDelay || 0);
 
       if (animationTarget) {
-        animationTarget.addEventListener("animationend", function () {
+        function onAnimationEnd() {
+          // Guard: se lo step non è più attivo (es. navigazione manuale anticipata o
+          // Firefox che spara un secondo animationend alla rimozione della classe .active)
+          // non avanzare, altrimenti si salta lo step successivo.
+          if (!enteringStep.classList.contains("active")) {
+            return;
+          }
+
+          animationTarget.removeEventListener("animationcancel", onAnimationCancel);
+
           // Mantiene il transform durante il fade-out
           enteringStep.classList.add("animation-finished");
 
@@ -89,7 +98,16 @@
           } else {
             api.next();
           }
-        }, { once: true });
+        }
+
+        function onAnimationCancel() {
+          // L'animazione è stata annullata (es. classe .active rimossa): rimuove
+          // il listener animationend per evitare un avanzamento spurio.
+          animationTarget.removeEventListener("animationend", onAnimationEnd);
+        }
+
+        animationTarget.addEventListener("animationend", onAnimationEnd, { once: true });
+        animationTarget.addEventListener("animationcancel", onAnimationCancel, { once: true });
       }
     }
 
