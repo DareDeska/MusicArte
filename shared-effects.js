@@ -19,6 +19,23 @@
   const tapToNextEnabled = root.dataset.tapToNext !== "false";
   let lastTouchAdvanceAt = 0;
 
+  // Nasconde il cursore dopo 3 secondi di inattività del mouse (funziona sempre,
+  // in qualsiasi browser e modalità, perché non dipende dal rilevamento del fullscreen).
+  let cursorHideTimer = null;
+
+  function hideCursor() {
+    document.body.style.cursor = "none";
+  }
+
+  function resetCursorTimer() {
+    document.body.style.cursor = "";
+    clearTimeout(cursorHideTimer);
+    cursorHideTimer = setTimeout(hideCursor, 3000);
+  }
+
+  document.addEventListener("mousemove", resetCursorTimer);
+  cursorHideTimer = setTimeout(hideCursor, 3000);
+
   function isInteractiveTarget(target) {
     return !!target?.closest("a, button, input, textarea, select, label, [data-no-tap-next]");
   }
