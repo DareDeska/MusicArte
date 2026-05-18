@@ -121,11 +121,32 @@
       h1 { font-size: 1.8rem; }
       #main a { padding: 1rem; font-size: 0.9rem; }
     }
+    .to-main {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 60px;   /* Area cliccabile */
+        height: 60px;
+        z-index: 9999; /* Sempre sopra tutto */
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.3s ease;
+        opacity: 0.1;  /* Quasi invisibile */
+        color: var(--gold, #c5a059); /* Usa la variabile se l'hai definita, altrimenti un colore simile */
+        font-size: 1.2rem;
+    }
+    /* Diventa visibile solo quando ci passi sopra col mouse */
+    .to-main:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.2); /* Un leggero velo per capire che è cliccabile */
+    }
   </style>
 </head>
 
 <body>
-
+<a href="main.png" class="to-main" title="main">&#8962;</a>
 <header>
   <h1>Luci e Ombre nel primo Seicento</h1>
   <h2>consonanze tra musica, pittura e scultura</h2>
@@ -136,9 +157,9 @@
   <p><a href="index_1.html"><b>B. Marini:</b> Sonata quarta</a></p>
   <p><a href="index_2.html"><b>D. Castello:</b> Sonata seconda</a></p>
   <p><a href="index_3.html"><b>R. Rognoni:</b> Diminuzioni Ancor Che Col Partire</a></p>
-  <p><a href="index_4.html"><b>S. Ganassi:</b> Io vorrei, Dio d'Amore</a></p>
+  <p><a href="index_4.html"><b>B. Montalbano:</b> Sinfonia terza “Sghemma”</a></p>
   <p><a href="index_5.html"><b>G. Fontana:</b> Sonata seconda</a></p>
-  <p><a href="index_6.html"><b>B. Montalbano:</b> Sinfonia terza “Sghemma”</a></p>
+  <p><a href="index_6.html"><b>S. Ganassi:</b> Io vorrei, Dio d'Amore</a></p>
   <p><a href="index_7.html"><b>D. Castello:</b> Sonata seconda a sopran solo</a></p>
   <p><a href="index_8.html"><b>A. Bertali:</b> Sonata seconda per violino, viola da gamba e basso</a></p>
 </div>
