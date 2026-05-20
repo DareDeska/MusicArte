@@ -108,18 +108,20 @@
 
           animationTarget.removeEventListener("animationcancel", onAnimationCancel);
 
-          // Mantiene il transform durante il fade-out
+          // Mantiene il transform durante il fade-out.
+          // Se c'è un delay, animation-finished viene rimossa dal cleanup
+          // sull'impress:stepenter del prossimo step (non con un timeout fisso,
+          // che scadrebbe mentre lo step è ancora attivo).
           enteringStep.classList.add("animation-finished");
-
-          setTimeout(function () {
-            enteringStep.classList.remove("animation-finished");
-          }, 1000);
 
           if (delay > 0) {
             setTimeout(function () {
               api.next();
             }, delay);
           } else {
+            setTimeout(function () {
+              enteringStep.classList.remove("animation-finished");
+            }, 1000);
             api.next();
           }
         }
