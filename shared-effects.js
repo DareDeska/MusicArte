@@ -75,6 +75,13 @@
     }, 200);
   });
 
+  // Controllo remoto da schermo 1 tramite postMessage
+  window.addEventListener('message', function (event) {
+    if (!event.data || typeof event.data.cmd !== 'string') return;
+    if (event.data.cmd === 'next') api.next();
+    if (event.data.cmd === 'prev') api.prev();
+  });
+
   root.addEventListener("impress:stepenter", function (event) {
     const enteringStep = event.target;
     const leavingSteps = root.querySelectorAll(".step.leaving");

@@ -1,4 +1,3 @@
-<!封装 id="main" class="presentation-menu">
 <!DOCTYPE html>
 
 
@@ -121,32 +120,10 @@
       h1 { font-size: 1.8rem; }
       #main a { padding: 1rem; font-size: 0.9rem; }
     }
-    .to-main {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 60px;   /* Area cliccabile */
-        height: 60px;
-        z-index: 9999; /* Sempre sopra tutto */
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: opacity 0.3s ease;
-        opacity: 0.1;  /* Quasi invisibile */
-        color: var(--gold, #c5a059); /* Usa la variabile se l'hai definita, altrimenti un colore simile */
-        font-size: 1.2rem;
-    }
-    /* Diventa visibile solo quando ci passi sopra col mouse */
-    .to-main:hover {
-        opacity: 1;
-        background: rgba(0, 0, 0, 0.2); /* Un leggero velo per capire che è cliccabile */
-    }
   </style>
 </head>
 
 <body>
-<a href="main.png" class="to-main" title="main">&#8962;</a>
 <header>
   <h1>Luci e Ombre nel primo Seicento</h1>
   <h2>consonanze tra musica, pittura e scultura</h2>
@@ -154,6 +131,7 @@
 </header>
 
 <div id="main">
+  <p><a href="main.png"><b>Presentazione</b></a></p>
   <p><a href="index_1.html"><b>B. Marini:</b> Sonata quarta</a></p>
   <p><a href="index_2.html"><b>D. Castello:</b> Sonata seconda</a></p>
   <p><a href="index_3.html"><b>R. Rognoni:</b> Diminuzioni Ancor Che Col Partire</a></p>
@@ -163,6 +141,40 @@
   <p><a href="index_7.html"><b>D. Castello:</b> Sonata seconda a sopran solo</a></p>
   <p><a href="index_8.html"><b>A. Bertali:</b> Sonata seconda per violino, viola da gamba e basso</a></p>
 </div>
+
+<script>
+(function () {
+  var presentWin = null;
+
+  // Intercetta i click sui link delle presentazioni
+  document.querySelectorAll('#main a').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      var url = this.href;
+      if (!presentWin || presentWin.closed) {
+        // Prima apertura: crea una nuova finestra popup
+        presentWin = window.open(url, 'presentazione', 'width=1280,height=720');
+      } else {
+        // Finestra già aperta: cambia solo la pagina e riporta il focus
+        presentWin.location.href = url;
+        presentWin.focus();
+      }
+    });
+  });
+
+  // Tasti su schermo 1 → comandi alla presentazione su schermo 2
+  document.addEventListener('keydown', function (e) {
+    if (!presentWin || presentWin.closed) return;
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      presentWin.postMessage({ cmd: 'next' }, '*');
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      presentWin.postMessage({ cmd: 'prev' }, '*');
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
