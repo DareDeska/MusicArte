@@ -139,7 +139,6 @@ html, body {
 
 .reverse-zoom-step img {
   will-change: transform;
-  transform: var(--zoom-detail-transform);
 }
 
 .impress-enabled .reverse-zoom-step.active img {
