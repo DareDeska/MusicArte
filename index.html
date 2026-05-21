@@ -120,6 +120,60 @@
       h1 { font-size: 1.8rem; }
       #main a { padding: 1rem; font-size: 0.9rem; }
     }
+
+    /* Switch pilotaggio remoto */
+    .remote-control {
+      width: 90%;
+      max-width: 800px;
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: var(--pergamena);
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+    .remote-control:hover { opacity: 1; }
+    .remote-control label { cursor: pointer; text-transform: uppercase; }
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(197,160,89,0.4);
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--pergamena);
+      transition: transform 0.3s;
+    }
+    .toggle-switch input:checked + .toggle-track {
+      background: rgba(197,160,89,0.35);
+      border-color: var(--gold);
+    }
+    .toggle-switch input:checked + .toggle-track::after {
+      transform: translateX(20px);
+      background: var(--gold);
+    }
   </style>
 </head>
 
@@ -142,6 +196,14 @@
   <p><a href="index_8.html"><b>A. Bertali:</b> Sonata seconda per violino, viola da gamba e basso</a></p>
 </div>
 
+<div class="remote-control">
+  <label class="toggle-switch" for="remoteToggle">
+    <input type="checkbox" id="remoteToggle">
+    <span class="toggle-track"></span>
+  </label>
+  <label for="remoteToggle">Dock</label>
+</div>
+
 <script>
 (function () {
   var presentWin = null;
@@ -149,6 +211,7 @@
   // Intercetta i click sui link delle presentazioni
   document.querySelectorAll('#main a').forEach(function (link) {
     link.addEventListener('click', function (e) {
+      if (!document.getElementById('remoteToggle').checked) return; // navigazione normale
       e.preventDefault();
       var url = this.href;
       if (!presentWin || presentWin.closed) {
@@ -162,14 +225,17 @@
     });
   });
 
-  // Tasti su schermo 1 → comandi alla presentazione su schermo 2
+  // Tasti su schermo 1 → comandi alla presentazione su schermo 2 (solo con toggle ON)
   document.addEventListener('keydown', function (e) {
+    if (!document.getElementById('remoteToggle').checked) return;
     if (!presentWin || presentWin.closed) return;
+    var isNavKey = e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown' ||
+                  e.key === 'ArrowLeft'  || e.key === 'PageUp';
+    if (!isNavKey) return;
+    e.preventDefault();
     if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
-      e.preventDefault();
       presentWin.postMessage({ cmd: 'next' }, '*');
-    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-      e.preventDefault();
+    } else {
       presentWin.postMessage({ cmd: 'prev' }, '*');
     }
   });
