@@ -133,6 +133,12 @@ html, body {
   --zoom-detail-transform: translate(var(--zoom-tx, -18%), var(--zoom-ty, 12%)) scale(var(--zoom-scale, 2.8));
 }
 
+.reverse-zoom-step {
+  --zoom-detail-transform-end:
+    translate(var(--zoom-tx-end, 0%), var(--zoom-ty-end, 0%))
+    scale(var(--zoom-scale-end, 1));
+}
+
 .impress-enabled .zoom-step.active img {
   animation: zoom-to-detail var(--zoom-duration, 1800ms) var(--zoom-ease, ease-in-out) forwards;
 }
@@ -156,7 +162,7 @@ html, body {
     transform: var(--zoom-detail-transform);
   }
   to {
-    transform: translate(0%, 0%) scale(1);
+    transform: var(--zoom-detail-transform-end);
   }
 }
 
@@ -166,6 +172,6 @@ html, body {
 }
 
 .reverse-zoom-step.animation-finished img {
-  transform: translate(0%, 0%) scale(1);
+  transform: var(--zoom-detail-transform-end);
 }
 

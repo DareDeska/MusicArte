@@ -66,6 +66,10 @@
   }
 
   root.addEventListener("impress:stepleave", function (event) {
+    const step = event.target;
+    if (step.classList.contains("zoom-step") || step.classList.contains("reverse-zoom-step")) {
+      step.classList.add("animation-finished");
+    }
     event.target.classList.add("leaving");
 
     // Rimuovi leaving dopo la finestra di overlap visivo
