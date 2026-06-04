@@ -30,7 +30,6 @@ html, body {
     background: rgba(0, 0, 0, 0.2); /* Un leggero velo per capire che è cliccabile */
 }
 
-
 .author {
     font-size: 150px;       /* Regola la grandezza (molto grande per impress.js) */
     color: #A0522D;        /* rosso caravaggio #83272D; */
@@ -66,6 +65,11 @@ html, body {
 
 #impress {
   touch-action: manipulation;
+}
+
+#impress-canvas {
+  will-change: transform;
+  transition-property: transform !important;
 }
 
 .step {
